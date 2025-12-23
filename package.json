@@ -1,0 +1,53 @@
+{
+  "name": "claude-alias",
+  "version": "1.0.0",
+  "description": "Manage Claude Code with custom AI API providers. Secure API key storage in macOS Keychain or Linux secret-tool.",
+  "type": "module",
+  "main": "dist/index.js",
+  "bin": {
+    "claude-alias": "./dist/bin/index.js"
+  },
+  "scripts": {
+    "build": "tsc && chmod +x dist/bin/index.js",
+    "dev": "tsc --watch",
+    "start": "node dist/bin/index.js",
+    "link": "npm run build && npm link",
+    "prepublishOnly": "npm run build",
+    "test": "node --test"
+  },
+  "keywords": [
+    "claude",
+    "claude-code",
+    "anthropic",
+    "cli",
+    "alias",
+    "ai",
+    "llm",
+    "deepseek",
+    "openrouter",
+    "keychain"
+  ],
+  "author": "",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/stommazh/Claude-Alias.git"
+  },
+  "homepage": "https://github.com/stommazh/Claude-Alias#readme",
+  "bugs": {
+    "url": "https://github.com/stommazh/Claude-Alias/issues"
+  },
+  "dependencies": {
+    "@inquirer/prompts": "^7.2.1",
+    "chalk": "^5.3.0",
+    "commander": "^12.1.0",
+    "ora": "^8.1.1"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.2",
+    "typescript": "^5.7.2"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
