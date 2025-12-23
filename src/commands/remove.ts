@@ -16,7 +16,7 @@ function showHeaderBox(): void {
 │                * ▝▜█████▛▘ *                │
 │                 *  ▘▘ ▝▝  *                 │
 │                                             │
-│       Claude Code Alias Manager v1.0.0      │
+│        Claude Code Alias Manager        │
 │                                             │
 │   Manage Claude Code with custom AI APIs    │
 │   Secure API key storage in macOS Keychain  │

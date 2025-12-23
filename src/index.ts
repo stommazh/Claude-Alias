@@ -98,7 +98,7 @@ function showHeader(): void {
 │                * ▝▜█████▛▘ *                │
 │                 *  ▘▘ ▝▝  *                 │
 │                                             │
-│       Claude Code Alias Manager v${VERSION}      │
+│        Claude Code Alias Manager        │
 │                                             │
 │   Manage Claude Code with custom AI APIs    │
 │   Secure API key storage in macOS Keychain  │
