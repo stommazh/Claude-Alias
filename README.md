@@ -33,10 +33,10 @@ sudo dnf install libsecret        # Fedora/RHEL
 
 ```bash
 # Install globally
-npm install -g claude-alias
+npm install -g @lvmk/claude-alias
 
 # Or use directly with npx
-npx claude-alias
+npx @lvmk/claude-alias
 ```
 
 ## Quick Start
