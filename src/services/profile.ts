@@ -128,9 +128,14 @@ export CLAUDE_HOME="$HOME/.claude-${config.alias}"
 # Create config directory if needed
 mkdir -p "$CLAUDE_HOME"
 
-# Symlink global settings.json if it exists (for MCP servers, permissions, etc.)
+# Symlink global settings.json if it exists (for permissions, hooks, etc.)
 if [ -f "$HOME/.claude/settings.json" ] && [ ! -e "$CLAUDE_HOME/settings.json" ]; then
     ln -s "$HOME/.claude/settings.json" "$CLAUDE_HOME/settings.json" 2>/dev/null || true
+fi
+
+# Symlink global .claude.json if it exists (for MCP servers, user configs)
+if [ -f "$HOME/.claude.json" ] && [ ! -e "$CLAUDE_HOME/.claude.json" ]; then
+    ln -s "$HOME/.claude.json" "$CLAUDE_HOME/.claude.json" 2>/dev/null || true
 fi
 
 # Check if claude exists
