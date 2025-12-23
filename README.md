@@ -2,7 +2,7 @@
 
 > Manage Claude Code with custom AI API providers using secure credential storage.
 
-[![npm version](https://img.shields.io/npm/v/claude-alias.svg)](https://www.npmjs.com/package/claude-alias)
+[![npm version](https://img.shields.io/npm/v/@lvmk/claude-alias.svg)](https://www.npmjs.com/package/@lvmk/claude-alias)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 
 **claude-alias** creates shell aliases that let you run [Claude Code](https://www.anthropic.com/claude-code) with different AI providers like DeepSeek, OpenRouter, Z.AI, and more. Each alias has its own API key stored securely in your system's credential manager.
