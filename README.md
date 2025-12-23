@@ -157,6 +157,25 @@ source ~/.zshrc  # or ~/.bashrc
 - **Linux with secret-tool**: Stored in GNOME Keyring/KDE Wallet
 - **Linux fallback**: AES-256 encrypted file (`~/.config/claude-alias/secrets.enc`)
 
+## Disclaimer
+
+This project is an **independent, community-developed tool** and is **not affiliated with, endorsed by, or sponsored by Anthropic, PBC**.
+
+- **Claude** and **Claude Code** are trademarks of [Anthropic, PBC](https://www.anthropic.com/).
+- This tool is a third-party utility that helps manage environment configurations for Claude Code.
+- Use of Claude Code is subject to [Anthropic's Terms of Service](https://www.anthropic.com/legal/terms).
+- Provider names mentioned (DeepSeek, OpenRouter, OpenAI, Google, etc.) are trademarks of their respective owners.
+
+This software is provided "as is" without warranty of any kind. The authors are not responsible for any issues arising from the use of this tool with Claude Code or any third-party API providers.
+
+## Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
 ## License
 
 MIT © 2024
+
+---
+
+*This project is not affiliated with Anthropic. Claude and Claude Code are trademarks of Anthropic, PBC.*
