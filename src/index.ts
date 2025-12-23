@@ -174,7 +174,7 @@ function showDetailedList(): void {
 /**
  * Run a command with error handling
  */
-async function runWithErrorHandling(fn: () => Promise<void>, operationName: string): Promise<void> {
+async function runWithErrorHandling(fn: () => Promise<void>, _operationName: string): Promise<void> {
     inCriticalOperation = true;
     try {
         await fn();
@@ -183,13 +183,13 @@ async function runWithErrorHandling(fn: () => Promise<void>, operationName: stri
         if (error && typeof error === 'object' && 'name' in error) {
             const errorName = (error as { name: string }).name;
             if (errorName === 'ExitPromptError') {
-                console.log(chalk.yellow(`\n⚠️  ${operationName} cancelled.`));
+                console.log(chalk.dim('\n← Back to menu'));
                 return;
             }
         }
 
         // Handle other errors
-        console.error(chalk.red(`\n❌ Error during ${operationName.toLowerCase()}:`));
+        console.error(chalk.red('\n❌ An error occurred:'));
         if (error instanceof Error) {
             console.error(chalk.dim(error.message));
         }
@@ -306,31 +306,16 @@ export async function run(): Promise<void> {
                     break;
             }
         } catch (error: unknown) {
-            // Check if it's a user cancellation
+            // Check if it's a user cancellation (Escape key)
             if (error && typeof error === 'object' && 'name' in error) {
                 const errorName = (error as { name: string }).name;
                 if (errorName === 'ExitPromptError') {
-                    // User pressed Ctrl+C during menu selection
-                    console.log(chalk.yellow('\n⚠️  Selection cancelled.'));
-
-                    try {
-                        const shouldExit = await confirm({
-                            message: 'Do you want to exit?',
-                            default: true
-                        });
-
-                        if (shouldExit) {
-                            shouldContinue = false;
-                        } else {
-                            // Clear and re-render
-                            clearScreen();
-                            showHeader();
-                            showStatus();
-                        }
-                    } catch {
-                        // Double Ctrl+C - just exit
-                        shouldContinue = false;
-                    }
+                    // User pressed Escape - just go back to main menu
+                    console.log(chalk.dim('\n← Back to menu'));
+                    await new Promise(resolve => setTimeout(resolve, 500));
+                    clearScreen();
+                    showHeader();
+                    showStatus();
                     continue;
                 }
             }
