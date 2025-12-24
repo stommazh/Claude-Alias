@@ -56,16 +56,12 @@ function detectDefaultAuthMethod(): boolean {
  */
 function showHeaderBox(): void {
     console.log(chalk.bold.cyan(`
-╭─────────────────────────────────────────────╮
-│                 * ▐▛███▜▌ *                 │
-│                * ▝▜█████▛▘ *                │
-│                 *  ▘▘ ▝▝  *                 │
-│                                             │
-│        Claude Code Alias Manager        │
-│                                             │
-│   Manage Claude Code with custom AI APIs    │
-│   Secure API key storage in macOS Keychain  │
-╰─────────────────────────────────────────────╯
+  * ▐▛███▜▌ *
+ * ▝▜█████▛▘ *
+  *  ▘▘ ▝▝  *
+
+  Claude Code Alias Manager
+  Manage Claude Code with custom AI APIs
 `));
 }
 
@@ -459,6 +455,17 @@ export async function runAddCommand(): Promise<void> {
         }
     }
 
+    // Ask about dangerously-skip-permissions flag
+    console.log(chalk.dim('\n⚡ Permission Settings'));
+    const skipPermissions = await confirm({
+        message: 'Enable --dangerously-skip-permissions flag?',
+        default: existingConfig.skipPermissions ?? false
+    });
+
+    if (skipPermissions) {
+        console.log(chalk.yellow('  ⚠️  Claude will auto-approve file operations without confirmation'));
+    }
+
     // Create config
     const now = new Date().toISOString();
     const config: ClaudeAliasConfig = {
@@ -471,6 +478,7 @@ export async function runAddCommand(): Promise<void> {
         subagentModel: modelValues.subagentModel?.trim() || undefined,
         maxOutputTokens,
         useAuthToken,
+        skipPermissions,
         createdAt: existingConfig.createdAt || now,
         updatedAt: now
     };

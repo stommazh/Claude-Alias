@@ -145,8 +145,9 @@ if ! command -v claude &> /dev/null; then
     exit 1
 fi
 
-# Launch Claude Code
-claude "$@"
+# Launch Claude Code${config.skipPermissions ? `
+claude --dangerously-skip-permissions "$@"` : `
+claude "$@"`}
 `;
 
     return script;
@@ -279,6 +280,9 @@ export function parseScriptConfig(content: string): Partial<ClaudeAliasConfig> {
 
     // Detect auth token vs api key
     config.useAuthToken = content.includes('ANTHROPIC_AUTH_TOKEN');
+
+    // Detect skip permissions flag
+    config.skipPermissions = content.includes('--dangerously-skip-permissions');
 
     // Parse dates
     const createdMatch = content.match(/# Created: (.+)$/m);

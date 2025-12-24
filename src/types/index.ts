@@ -14,6 +14,7 @@ export interface ClaudeAliasConfig {
     smallFastModel?: string; // Legacy: ANTHROPIC_SMALL_FAST_MODEL (deprecated)
     maxOutputTokens?: number;
     useAuthToken?: boolean; // Use ANTHROPIC_AUTH_TOKEN instead of ANTHROPIC_API_KEY
+    skipPermissions?: boolean; // Add --dangerously-skip-permissions flag
     customEnv?: Record<string, string>;
     createdAt: string;
     updatedAt: string;

@@ -1,6 +1,6 @@
 {
   "name": "@lvmk/claude-alias",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Manage Claude Code with custom AI API providers. Secure API key storage in macOS Keychain or Linux secret-tool.",
   "type": "module",
   "main": "dist/index.js",

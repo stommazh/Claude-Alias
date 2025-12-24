@@ -93,16 +93,12 @@ function setupSignalHandlers(): void {
  */
 function showHeader(): void {
     console.log(chalk.bold.cyan(`
-╭─────────────────────────────────────────────╮
-│                 * ▐▛███▜▌ *                 │
-│                * ▝▜█████▛▘ *                │
-│                 *  ▘▘ ▝▝  *                 │
-│                                             │
-│        Claude Code Alias Manager        │
-│                                             │
-│   Manage Claude Code with custom AI APIs    │
-│   Secure API key storage in macOS Keychain  │
-╰─────────────────────────────────────────────╯
+  * ▐▛███▜▌ *
+ * ▝▜█████▛▘ *
+  *  ▘▘ ▝▝  *
+
+  Claude Code Alias Manager
+  Manage Claude Code with custom AI APIs
 `));
 }
 
@@ -172,19 +168,20 @@ function showDetailedList(): void {
 }
 
 /**
- * Run a command with error handling
+ * Run a command with error handling. Returns true if user cancelled (Ctrl+C)
  */
-async function runWithErrorHandling(fn: () => Promise<void>, _operationName: string): Promise<void> {
+async function runWithErrorHandling(fn: () => Promise<void>, _operationName: string): Promise<boolean> {
     inCriticalOperation = true;
     try {
         await fn();
+        return false; // Not cancelled
     } catch (error: unknown) {
         // Check if it's a user cancellation (ExitPromptError from inquirer)
         if (error && typeof error === 'object' && 'name' in error) {
             const errorName = (error as { name: string }).name;
             if (errorName === 'ExitPromptError') {
-                console.log(chalk.dim('\n← Back to menu'));
-                return;
+                // User cancelled - return true so main loop skips waitForEnter
+                return true;
             }
         }
 
@@ -193,6 +190,7 @@ async function runWithErrorHandling(fn: () => Promise<void>, _operationName: str
         if (error instanceof Error) {
             console.error(chalk.dim(error.message));
         }
+        return false;
     } finally {
         inCriticalOperation = false;
     }
@@ -265,32 +263,48 @@ export async function run(): Promise<void> {
             const choice = await select({
                 message: 'What would you like to do?',
                 choices: [
-                    { name: '➕ Add/Edit alias', value: 'add' },
-                    { name: '🗑️  Remove aliases', value: 'remove' },
-                    { name: '📋 List all aliases', value: 'list' },
-                    { name: '❌ Exit', value: 'exit' }
+                    { name: '➕  Add/Edit alias', value: 'add' },
+                    { name: '➖  Remove aliases', value: 'remove' },
+                    { name: '📂  List all aliases', value: 'list' },
+                    { name: '🔻  Exit', value: 'exit' }
                 ]
             });
 
             switch (choice) {
-                case 'add':
+                case 'add': {
                     // Command handles its own clearing and header
-                    await runWithErrorHandling(runAddCommand, 'Add/Edit');
-                    // Wait for user to read results, then return to menu
-                    await waitForEnter();
-                    clearScreen();
-                    showHeader();
-                    showStatus();
+                    const cancelled = await runWithErrorHandling(runAddCommand, 'Add/Edit');
+                    if (cancelled) {
+                        // User pressed Ctrl+C - go back to menu immediately
+                        clearScreen();
+                        showHeader();
+                        showStatus();
+                    } else {
+                        // Wait for user to read results, then return to menu
+                        await waitForEnter();
+                        clearScreen();
+                        showHeader();
+                        showStatus();
+                    }
                     break;
-                case 'remove':
+                }
+                case 'remove': {
                     // Command handles its own clearing and header
-                    await runWithErrorHandling(runRemoveCommand, 'Remove');
-                    // Wait for user to read results, then return to menu
-                    await waitForEnter();
-                    clearScreen();
-                    showHeader();
-                    showStatus();
+                    const cancelled = await runWithErrorHandling(runRemoveCommand, 'Remove');
+                    if (cancelled) {
+                        // User pressed Ctrl+C - go back to menu immediately
+                        clearScreen();
+                        showHeader();
+                        showStatus();
+                    } else {
+                        // Wait for user to read results, then return to menu
+                        await waitForEnter();
+                        clearScreen();
+                        showHeader();
+                        showStatus();
+                    }
                     break;
+                }
                 case 'list':
                     clearScreen();
                     showHeader();
@@ -306,16 +320,12 @@ export async function run(): Promise<void> {
                     break;
             }
         } catch (error: unknown) {
-            // Check if it's a user cancellation (Escape key)
+            // Check if it's a user cancellation (Escape/Ctrl+C)
             if (error && typeof error === 'object' && 'name' in error) {
                 const errorName = (error as { name: string }).name;
                 if (errorName === 'ExitPromptError') {
-                    // User pressed Escape - just go back to main menu
-                    console.log(chalk.dim('\n← Back to menu'));
-                    await new Promise(resolve => setTimeout(resolve, 500));
-                    clearScreen();
-                    showHeader();
-                    showStatus();
+                    // On main menu, Ctrl+C exits the script
+                    shouldContinue = false;
                     continue;
                 }
             }

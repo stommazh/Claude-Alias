@@ -11,16 +11,12 @@ import { clearScreen } from '../index.js';
  */
 function showHeaderBox(): void {
     console.log(chalk.bold.cyan(`
-╭─────────────────────────────────────────────╮
-│                 * ▐▛███▜▌ *                 │
-│                * ▝▜█████▛▘ *                │
-│                 *  ▘▘ ▝▝  *                 │
-│                                             │
-│        Claude Code Alias Manager        │
-│                                             │
-│   Manage Claude Code with custom AI APIs    │
-│   Secure API key storage in macOS Keychain  │
-╰─────────────────────────────────────────────╯
+  * ▐▛███▜▌ *
+ * ▝▜█████▛▘ *
+  *  ▘▘ ▝▝  *
+
+  Claude Code Alias Manager
+  Manage Claude Code with custom AI APIs
 `));
 }
 
